@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const isFalsy = (value: any) => (value === 0 ? true : !!value);
+// unknown是严格版本的any，在想要使用any的地方可以考虑使用unknown
+export const isFalsy = (value: unknown) => (value === 0 ? true : !!value);
 
 /**
  * 清除对象的空属性，如
@@ -38,7 +39,8 @@ export const useMount = (callback: () => void) => {
  * @param {*} delay 要么不传，要传就传number
  * @returns
  */
-export const useDebounce = (value: any, delay?: number) => {
+// 后面用泛型来规范类型
+export const useDebounce = (value: unknown, delay?: number): any => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
