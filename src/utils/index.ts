@@ -52,3 +52,27 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 
   return debouncedValue;
 };
+
+/**
+ * 操作数组的方法
+ * @param initialArr 数组
+ * @returns
+ */
+export const useArray = <T>(initialArr: T[]) => {
+  const [value, setValue] = useState(initialArr);
+  return {
+    value,
+    setValue,
+    removeIndex: (index: number) => {
+      const copy = [...value];
+      copy.splice(index, 1);
+      setValue(copy);
+    },
+    clear: () => {
+      setValue([]);
+    },
+    add: (item: T) => {
+      setValue([...value, item]);
+    },
+  };
+};
