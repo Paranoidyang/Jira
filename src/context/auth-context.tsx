@@ -9,6 +9,7 @@ interface AuthForm {
   password: string;
 }
 
+// 初始化用户信息
 const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();

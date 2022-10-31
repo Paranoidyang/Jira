@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { cleanObject, useDebounce, useMount } from "../../utils";
 import { useHttp } from "utils/http";
 
-// 根据运行环境自动匹配接口域名
-const apiUrl = process.env.REACT_APP_API_URL;
-
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
   const [param, setParam] = useState({
