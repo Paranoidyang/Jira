@@ -3,20 +3,30 @@ import { useEffect, useState } from "react";
 // unknown是严格版本的any，在想要使用any的地方可以考虑使用unknown
 export const isFalsy = (value: unknown) => (value === 0 ? true : !!value);
 
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
+
+// let a: object
+// a = {name: 'jack'}
+// a = () => {
+// }
+// a = new RegExp('')
+//
+// let b: { [key: string]: unknown }
+// b = {name: 'Jack'}
+// b = () => {}
 /**
  * 清除对象的空属性，如
- * @param {*} object
+ * @param {*} object 限定只能是键值对类型
  * @returns
  */
-export const cleanObject = (object: Object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   // 在一个函数里，改变传入的对象本身是不好的，所以这里使用深拷贝
   // 以下代码类似于：Object.assign({}, object)
   const result = { ...object };
   Object.keys(result).forEach((key) => {
-    // @ts-ignore 暂时忽略ts错误
     const value = result[key];
-    if (!isFalsy(value)) {
-      // @ts-ignore
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -30,6 +40,8 @@ export const cleanObject = (object: Object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // TODO 依赖项里加上callback会造成无限循环，这个和useCallback以及useMemo有关系
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

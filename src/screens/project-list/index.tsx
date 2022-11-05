@@ -18,6 +18,7 @@ export const ProjectListScreen = () => {
   // 监听一个防抖的参数，达到请求防抖的目的
   useEffect(() => {
     client("projects", { data: cleanObject(debouncedParam) }).then(setList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]);
 
   // 类似类组件的componentDidMount

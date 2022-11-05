@@ -4,7 +4,6 @@ import qs from "qs";
 // 2、qs.parse()：将url参数解析成对象
 import * as auth from "auth-provider";
 import { useAuth } from "context/auth-context";
-import { type } from "os";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -64,14 +63,14 @@ export const useHttp = () => {
     http(endpoint, { ...config, token: user?.token });
 };
 
-// 类型别名、Utility Type 讲解
-// 联合类型
-let myFavoriteNumber: string | number;
-myFavoriteNumber = "seven";
-myFavoriteNumber = 7;
-// TS2322: Type '{}' is not assignable to type 'string | number'.
-// myFavoriteNumber = {}
-let jackFavoriteNumber: string | number;
+// // 类型别名、Utility Type 讲解
+// // 联合类型
+// let myFavoriteNumber: string | number;
+// myFavoriteNumber = "seven";
+// myFavoriteNumber = 7;
+// // TS2322: Type '{}' is not assignable to type 'string | number'.
+// // myFavoriteNumber = {}
+// let jackFavoriteNumber: string | number;
 
 // 类型别名在很多情况下可以和interface互换
 // interface Person {
@@ -80,22 +79,22 @@ let jackFavoriteNumber: string | number;
 // type Person = { name: string }
 // const xiaoMing: Person = {name: 'xiaoming'}
 
-// 类型别名, interface 在这种情况下没法替代type
-type FavoriteNumber = string | number;
-let roseFavoriteNumber: FavoriteNumber = "6";
+// // 类型别名, interface 在这种情况下没法替代type
+// type FavoriteNumber = string | number;
+// let roseFavoriteNumber: FavoriteNumber = "6";
 
-// interface 也没法实现Utility type
-type Person = {
-  name: string;
-  age: number;
-};
-const xiaoMing: Partial<Person> = {};
-const shenMiRen: Omit<Person, "name" | "age"> = {};
-type PersonKeys = keyof Person;
-type PersonOnlyName = Pick<Person, "name" | "age">;
-type Age = Exclude<PersonKeys, "name">;
+// // interface 也没法实现Utility type
+// type Person = {
+//   name: string;
+//   age: number;
+// };
+// const xiaoMing: Partial<Person> = {};
+// const shenMiRen: Omit<Person, "name" | "age"> = {};
+// type PersonKeys = keyof Person;
+// type PersonOnlyName = Pick<Person, "name" | "age">;
+// type Age = Exclude<PersonKeys, "name">;
 
-// Partial 的实现
-type Partial<T> = {
-  [P in keyof T]?: T[P];
-};
+// // Partial 的实现
+// type Partial<T> = {
+//   [P in keyof T]?: T[P];
+// };
