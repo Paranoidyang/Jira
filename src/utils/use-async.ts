@@ -12,7 +12,15 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
-export const useAsync = <D>(initialState?: State<D>) => {
+const defaultConfig = {
+  throwOnError: false, //接口报错是否抛出异常，默认不抛出
+};
+
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultConfig //typeof操作符用于获取变量的类型
+) => {
+  const config = { ...defaultConfig, ...initialConfig };
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
@@ -44,7 +52,9 @@ export const useAsync = <D>(initialState?: State<D>) => {
         return data;
       })
       .catch((error) => {
+        // catch会消化异常，如果不主动抛出，外面是接收不到异常的
         setError(error);
+        if (config.throwOnError) return Promise.reject(error);
         return error;
       });
   };
