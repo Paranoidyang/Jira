@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // unknown是严格版本的any，在想要使用any的地方可以考虑使用unknown
 export const isFalsy = (value: unknown) => (value === 0 ? true : !!value);
@@ -89,8 +89,17 @@ export const useArray = <T>(initialArr: T[]) => {
   };
 };
 
+/**
+ * 修改网页标题
+ * @param title 标题
+ * @param keepOnUnmount 是否卸载时保持当前标题
+ */
 export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
-  const oldTitle = document.title;
+  // useRef返回的ref对象，在组件的整个声明周期内保持不变，可以用来持久化数据，此处用来保存原来的标题
+  const oldTitle = useRef(document.title).current;
+
+  // 页面加载时: 旧title
+  // 加载后：新title
 
   useEffect(() => {
     document.title = title;
@@ -99,10 +108,10 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
-        // 闭包的原理，保持了旧的title
-        // TODO：利用闭包实现不直观，可以用useRef持久化旧的title，更为直观
+        // 如果不指定依赖，利用闭包的原理，读到的就是旧title，但是不直观
+        // 所以改用useRef持久化oldTitle，更为直观
         document.title = oldTitle;
       }
     };
-  }, []);
+  }, [keepOnUnmount, oldTitle]);
 };
