@@ -88,3 +88,21 @@ export const useArray = <T>(initialArr: T[]) => {
     },
   };
 };
+
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = document.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        // 闭包的原理，保持了旧的title
+        // TODO：利用闭包实现不直观，可以用useRef持久化旧的title，更为直观
+        document.title = oldTitle;
+      }
+    };
+  }, []);
+};
