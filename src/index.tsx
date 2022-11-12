@@ -1,3 +1,4 @@
+import "./wdyr"; //必须第一行引入，方便定位页面无限渲染的原因
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
