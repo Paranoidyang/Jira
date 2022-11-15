@@ -4,6 +4,7 @@ import qs from "qs";
 // 2、qs.parse()：将url参数解析成对象
 import * as auth from "auth-provider";
 import { useAuth } from "context/auth-context";
+import { useCallback } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -59,8 +60,11 @@ export const useHttp = () => {
   const { user } = useAuth();
   // TODO 讲解 TS Utility Types 联合类型
   // utility type 的用法：用泛型给它传入一个其他类型，然后utility type对这个类型进行某种操作
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-    http(endpoint, { ...config, token: user?.token });
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
+    [user?.token]
+  );
 };
 
 // // 类型别名、Utility Type 讲解
