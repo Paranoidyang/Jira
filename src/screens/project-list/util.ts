@@ -15,6 +15,11 @@ export const useProjectsSearchParams = () => {
   ] as const;
 };
 
+export const useProjectsQueryKey = () => {
+  const [params] = useProjectsSearchParams();
+  return ["projects", params];
+};
+
 // 控制弹窗显示隐藏
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
