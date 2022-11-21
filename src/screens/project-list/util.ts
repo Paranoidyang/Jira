@@ -12,3 +12,19 @@ export const useProjectsSearchParams = () => {
     setParam,
   ] as const;
 };
+
+// 控制弹窗显示隐藏
+export const useProjectModal = () => {
+  const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
+    "projectCreate",
+  ]);
+
+  const open = () => setProjectCreate({ projectCreate: true });
+  const close = () => setProjectCreate({ projectCreate: undefined });
+
+  return {
+    projectModalOpen: projectCreate === "true",
+    open,
+    close,
+  };
+};
