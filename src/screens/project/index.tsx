@@ -16,7 +16,12 @@ export const ProjectScreen = () => {
         {/*访问/projects/:projectId时重定向*/}
         <Route
           path="/"
-          element={<Navigate to={window.location.pathname + "/kanban"} />}
+          element={
+            <Navigate
+              to={window.location.pathname + "/kanban"}
+              replace={true}
+            />
+          }
         />
       </Routes>
     </div>
