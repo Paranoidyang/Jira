@@ -1,4 +1,4 @@
-import { User } from "./search-panel";
+import { User } from "types/user";
 import { Dropdown, Menu, Modal, Table } from "antd";
 import dayjs from "dayjs";
 import { TableProps } from "antd/es/table";
@@ -11,15 +11,8 @@ import {
   useProjectModal,
   useProjectsQueryKey,
 } from "screens/project-list/util";
+import { Project } from "../../types/project";
 
-export interface Project {
-  id: number;
-  name: string;
-  personId: number;
-  pin: boolean;
-  organization: string;
-  created: number;
-}
 interface ListProps extends TableProps<Project> {
   users: User[];
 }
