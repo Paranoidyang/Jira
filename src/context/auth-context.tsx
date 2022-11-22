@@ -5,6 +5,7 @@ import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import { useQueryClient } from "react-query";
 
 interface AuthForm {
   username: string;
@@ -44,10 +45,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setData: setUser,
   } = useAsync<User | null>();
 
+  const queryClient = useQueryClient();
+
   // point free
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const logout = () =>
+    auth.logout().then(() => {
+      setUser(null);
+      // 将通过usequery获取的数据清除掉，即清除缓存
+      queryClient.clear();
+    });
 
   useMount(() => {
     run(bootstrapUser());
